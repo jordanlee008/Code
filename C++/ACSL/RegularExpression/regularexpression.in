@@ -1,0 +1,6 @@
+# aa bc ac ab abc aabc abbc bcc aaabc
+a[abc]bc
+a.c
+a[^b]c
+a{1,4}bc
+a*bc

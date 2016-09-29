@@ -6,21 +6,41 @@ using namespace std;
 int nmoves = 0;
 
 void movestack (int n, int istart, int iend) {
+
   if (n <= 0) {
     printf("No moves to make!\n");
     return;
   }
   if (n == 1) {
-    printf("Move ring %d from %d to %d\n", n, istart, iend);
-    nmoves++;   
+    if (iend - istart < 2 && iend - istart > -2) {
+      printf("Move ring %d from %d to %d\n", n, istart, iend);
+      nmoves++;
+    }
+    else {
+      printf("Move ring %d from %d to %d\n", n, istart, 2);
+      nmoves++;
+      printf("Move ring %d from %d to %d\n", n, 2, iend); 
+      nmoves++;
+   
     return;
   }
 
   int iother = 6 - (istart + iend);
 
   movestack (n - 1, istart, iother);
-  printf("Move ring %d from %d to %d\n", n, istart, iend);
-  nmoves++;
+  if (iend - istart < 2 && iend - istart > -2) {
+    printf("Move ring %d from %d to %d\n", n, istart, iend);
+    nmoves++;
+  }
+  else {
+    printf("Move ring %d from %d to %d\n", n, istart, 2);
+    nmoves++;
+    movestack (n - 1, iother, 2);
+    movestack (n - 1, iother, istart);
+    printf("Move ring %d from %d to %d\n", n, 2, iend);
+    nmoves++;
+  }
+  movestack (n - 1, istart, iother);
   movestack (n - 1, iother, iend);
 }
 

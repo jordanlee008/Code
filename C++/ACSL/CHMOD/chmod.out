@@ -1,0 +1,5 @@
+1. 111 010 001  and rwx -w- --x 
+2. 011 100 110  and -wx r-- rw- 
+3. 5 1 7  and r-x --x rwx 
+4. 1 6 5  and --x rw- r-x 
+5. 7 2 5  and 111 010 101 

@@ -1,0 +1,22 @@
+/*
+This program is to demonstrate mastery of DFS by outputting all possible
+combinations of boards with 8 queens in which no queen is attacked by another.
+*/
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+    int dif = c - i;
+    if (dif < 8 - q)
+  }
+  return 
+}
+
+int main (void) {
+  
+  return 0;
+}
+;
+}
