@@ -1,0 +1,46 @@
+#ifndef ___Mod__
+#define ___Mod__
+#include <iostream>
+#include <cassert>
+
+class Mod {
+ public:
+  Mod(long t); // done
+  Mod(const Mod& m); // done
+  
+  Mod& operator=(const Mod& m); // done
+  Mod& operator+=(const Mod& m); // done
+  Mod& operator-=(const Mod& m); // done
+  Mod& operator*=(const Mod& m); // done
+  Mod& operator/=(const Mod& m);
+
+  Mod operator-() const; // done
+  Mod pwr(long e) const;
+  long val() const;
+
+  static void set_modulus(long m); // done
+  static long get_modulus(); // done
+
+ private:
+  long x;
+  static long modulus;
+  static Mod inv(long r0);
+};
+
+Mod operator+(const Mod& a, const Mod& b); // done
+Mod operator+(long t, const Mod& m); // done
+Mod operator-(const Mod& a, const Mod& b); // done
+Mod operator-(long t, const Mod& m); // done
+Mod operator*(const Mod& a, const Mod& b);
+Mod operator*(long t, const Mod& m);
+Mod operator/(const Mod& a, const Mod& b);
+Mod operator/(long t, const Mod& m);
+bool operator==(const Mod& a, const Mod& b); // done
+bool operator==(long t, const Mod& m); // done
+bool operator!=(const Mod& a, const Mod& b); // done
+bool operator!=(long t, const Mod& m); // done
+
+istream& operator>>(istream& is, Mod& m); // done
+ostream& operator<<(ostream& os, const Mod& m); // done
+
+#endif
