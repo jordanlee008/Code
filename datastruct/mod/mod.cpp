@@ -38,58 +38,83 @@ Mod& Mod::operator-=(const Mod& m) {
 }
 
 Mod& Mod::operator*=(const Mod& m) {
-  long ml = m.val(), xl = x;
-  while (ml > 1) {
+  long ml = m.val();
+  Mod a(0), xm(x);
+  while (ml) {
     if (ml % 2)
-      xl += x;
-    ml /= 2;
-    Mod xm(xl);
+      a += xm;
     xm += xm;
-    xl = xm.val();
+    ml /= 2;
   }
-  x = xl;
+  x = a.val();
   return *this;
 }
 
 Mod& Mod::operator/=(const Mod& m) {
-  
+  long mx = m.val();
+  Mod minv = inv(mx);
+  minv = x * minv;
+  x = minv.val();
+  return *this;
 }
 
 Mod Mod::operator-() const {
-  Mod o(0 - modulus);
+  Mod o(0 - x);
   return o;
 }
 
 Mod Mod::pwr(long e) const {
-  
+  Mod m(x);
+  while (e > 1) {
+    m *= m;
+    if (e % 2)
+      m = m * x;
+    e /= 2;
+  }
+  return m;
 }
 
 long Mod::val() const {
   return x;
 }
   
-static void Mod::set_modulus(long m) {
+void Mod::set_modulus(long m) {
   if (m < 1)
     cerr << "invalid modulus\n";
   modulus = m;
 }
 
-static long Mod::get_modulus() {
+long Mod::get_modulus() {
   return modulus;
 }
 
-static Mod Mod::inv(long r0) {
-  
+Mod Mod::inv(long r0) {
+  long m = modulus, t, q;
+  long x0 = 0, x1 = 1; 
+
+  while (r0 > 1) {
+    q = r0 / m; // set q
+
+    // update from equation r0 = q * m + r
+    // to m = qnew * r + rnew
+    t = m;
+    m = r0 % m;
+    r0 = t;
+    
+    // update x0 to x1 - q * x0
+    // update x1 to old x0
+    t = x0;
+    x0 = x1 - q * x0;
+    x1 = t;
+  }
+  Mod res(x1);
+  return res;
 }
 
 Mod operator+(const Mod& a, const Mod& b) {
-  long al = a.val(), bl = b.val();
-  if (a.val() > Mod::get_modulus() / 2)
-    al = a.val() - Mod::get_modulus();
-  if (b.val() > Mod::get_modulus() / 2)
-    bl = b.val() - Mod::get_modulus();
-  Mod m(al + bl);
-  return m;
+  Mod c(a);
+  c += b;
+  return c;
 }
 
 Mod operator+(long t, const Mod& m) {
@@ -98,13 +123,9 @@ Mod operator+(long t, const Mod& m) {
 }
 
 Mod operator-(const Mod& a, const Mod& b) {
-  long al = a, bl = b;
-  if (a.val() < 0 - Mod::get_modulus() / 2)
-    al = a.val() + Mod::get_modulus();
-  if (b.val() < 0 - Mod::get_modulus() / 2)
-    bl = b.val() + Mod::get_modulus();
-  Mod m(al - bl);
-  return m;
+  Mod c(a);
+  c -= b;
+  return c;
 }
 
 Mod operator-(long t, const Mod& m) {
@@ -113,28 +134,27 @@ Mod operator-(long t, const Mod& m) {
 }
 
 Mod operator*(const Mod& a, const Mod& b) {
-  Mod m = 0;
-  long al = a.val(), bl = b.val();
-  while (b) {
-    if (al > Mod::get_modulus() / 2)
-      al -= Mod::get_modulus;
-    if (b % 2)
-      al += al;
-    b /= 2;
-    a *= 2;
-  }
+  Mod c(a);
+  c *= b;
+  return c;
 }
 
 Mod operator*(long t, const Mod& m) {
- 
+  Mod n(t);
+  n *= m;
+  return n;
 }
 
 Mod operator/(const Mod& a, const Mod& b) {
-  
+  Mod c(a);
+  c /= b;
+  return c;
 }
 
 Mod operator/(long t, const Mod& m) {
-  
+  Mod n(t);
+  n /= m;
+  return n;
 }
 
 bool operator==(const Mod& a, const Mod& b) {
@@ -157,7 +177,7 @@ bool operator!=(long t, const Mod& m) {
 
 istream& operator>>(istream& is, Mod& m) {
   long t;
-  in >> t;
+  is >> t;
   m = Mod(t);
   return is;
 }
