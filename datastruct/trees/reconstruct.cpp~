@@ -1,0 +1,9 @@
+#include <iostream>
+#include <Node.h>
+
+using namespace std;
+
+template<class T>
+Node *reconstruct(const vector<T>& in, const vector<T>& pre, int i0, int p0, n) {
+  
+}
