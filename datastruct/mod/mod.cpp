@@ -1,17 +1,10 @@
 #include "mod.h"
 
-using std::istream;
-using std::ostream;
-using std::cin;
-using std::cout;
-using std::cerr;
+using namespace std;
 
 Mod::Mod(long t) {
-  while (t >= modulus)
-    t -= modulus;
-  while (t < 0)
-    t += modulus;
-  x = t;
+  while (t < 0) t += modulus;
+  x = t % modulus;
 }
 
 Mod::Mod(const Mod& m) {
@@ -24,9 +17,9 @@ Mod& Mod::operator=(const Mod& m) {
 }
 
 Mod& Mod::operator+=(const Mod& m) {
+  x -= modulus;
   x += m.val();
-  if (x >= modulus)
-    x -= modulus;
+  if (x < 0) x += modulus;
   return *this;
 }
 
@@ -38,13 +31,12 @@ Mod& Mod::operator-=(const Mod& m) {
 }
 
 Mod& Mod::operator*=(const Mod& m) {
-  long ml = m.val();
-  Mod a(0), xm(x);
-  while (ml) {
-    if (ml % 2)
-      a += xm;
-    xm += xm;
-    ml /= 2;
+  Mod a = 0, b = x;
+  long c = m.val();
+  while (c > 0) {
+    if (c % 2) a += b;
+    b += b;
+    c /= 2;
   }
   x = a.val();
   return *this;
@@ -77,9 +69,9 @@ Mod Mod::pwr(long e) const {
 long Mod::val() const {
   return x;
 }
-  
+
 void Mod::set_modulus(long m) {
-  if (m < 1)
+  if (m < 2)
     cerr << "invalid modulus\n";
   modulus = m;
 }

@@ -4,12 +4,12 @@
 using namespace std;
 
 int median_of_3(int a[], int lo, int hi) {
-  int mid = a[(lo + hi) / 2];
+  int mid = (lo + hi) / 2;
   if ((a[lo] <= a[mid] && a[mid] <= a[hi]) || (a[lo] >= a[mid] && a[mid] >= a[hi]))
-    return mid;
+    return a[mid];
   if ((a[mid] <= a[lo] && a[lo] <= a[hi]) || (a[mid] >= a[lo] && a[lo] >= a[hi]))
-    return lo;
-  return hi;
+    return a[lo];
+  return a[hi];
 }
 
 int qs_coffee_partition(int a[], int lo, int hi) {
@@ -23,14 +23,20 @@ int qs_coffee_partition(int a[], int lo, int hi) {
 }
 
 void qs_coffee(int a[], int lo, int hi) {
-  while (lo < hi) {
+  if (lo < hi) {
     int m = qs_coffee_partition(a, lo, hi);
-    if (m - lo < hi - m + 1) {
-      qs_coffee(a, lo, m - 1);
-      lo = m;
-    } else {
-      qs_coffee(a, m, hi);
-      hi = m - 1;
-    }
+    qs_coffee(a, lo, m - 1);
+    qs_coffee(a, m, hi);
   }
+}
+
+int main() {
+  int a[100];
+  for (int i = 0; i < 100; i++) a[i] = rand() % 100;
+  for (int i = 0; i < 100; i++) cout << a[i] << " ";
+  cout << "\n";
+  qs_coffee(a, 0, 100);
+  for (int i = 0; i < 100; i++) cout << a[i] << " ";
+  
+  return 0;
 }

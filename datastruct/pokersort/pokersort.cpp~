@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> hand(int c) { // return the cards of the hand
+  vector<int> h;
+  for (int i = 0; i < 5; i++) {
+    h.push_back(c % 52);
+    c /= 52;
+  }
+  return h;
+}
+
+// returns the value of the card, to compare
+// c[0] contains the type of hand
+// c[1-5] contains the cards sorted in order of importance and then by value
+vector<int> val(int c) {
+  vector<int> cs = hand(c); // card
+  
+  
+}
+
+// returns if h0 < h1
+// compare val[0], then val[1], then val[2], etc
+bool less(int h0, int h1) { 
+  vector<int> v0 = val(h0), v1 = val(h1);
+  if (v0[0] != v1[0]) return v0[0] < v1[0];
+  if (v0[1] != v1[1]) return v0[1] < v1[1];
+  if (v0[2] != v1[2]) return v0[2] < v1[2];
+  if (v0[3] != v1[3]) return v0[3] < v1[3];
+  if (v0[4] != v1[4]) return v0[4] < v1[4];
+  return v0[5] < v1[5];
+}
+
+void poker_sort(vector<int>& a) { // a contains a bunch of hands
+  
+}
+
+int main() {
+  return 0;
+}

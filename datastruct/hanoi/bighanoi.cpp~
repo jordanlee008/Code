@@ -13,8 +13,8 @@ vector<VI> k_hanoi; // k_hanoi[twr][dsks] = # of disks in first move
 
 // initialize n_hanoi and k_hanoi
 void hanoi_init() {
-  VL n(10001, 0);
-  VI k(10001, 0);
+  VL n(10001, -1);
+  VI k(10001, -1);
   for (int i = 0; i < 11; i++) {
     n_hanoi.push_back(n);
     k_hanoi.push_back(k);
@@ -22,11 +22,11 @@ void hanoi_init() {
   for (int i = 0; i < 11; i++) {
     n_hanoi[i][1] = 1;
   }
-  for (int i = 2; i < 10000; i++) {
+  for (int i = 2; i < 64; i++) {
     n_hanoi[3][i] = 2 * (n_hanoi[3][i - 1] + 1) - 1;
     k_hanoi[3][i] = i - 1;
   }
-  for (int i = 2; i < 10000; i++) {
+  for (int i = 2; i < 64; i++) {
     long min = 2147483647;
     int mink = 1;
     for (int j = 1; j < i; j++) {
@@ -39,11 +39,11 @@ void hanoi_init() {
     k_hanoi[4][i] = mink;
     n_hanoi[4][i] = min;
   }
-  for (int i = 5; i <= 10; i++) {
+  /*  for (int i = 5; i <= 10; i++) {
     for (int j = 2; j <= 10000; j++) {
     long min = 2147483647;
     int mink = 1;
-    for (int k = 1; k < i; k++) {
+    for (int k = 1; k < j; k++) {
       long n = 2 * n_hanoi[i][k] + n_hanoi[i - 1][j - k];
       if (n < min) {
 	mink = j;
@@ -53,7 +53,7 @@ void hanoi_init() {
     k_hanoi[i][j] = mink;
     n_hanoi[i][j] = min;
     }
-  }
+    }*/
 }
 
 // fill moves so that each element is a two-integer VI describing the move
@@ -66,18 +66,20 @@ void hanoi(vector<VI>& moves, int n_twrs, int n_dsks, VI& aux) {
     moves.push_back(move);
     return;
   }
- 
-  VI naux = aux;
-  swap(naux[1], naux[n_twrs - 1]);
-  hanoi(moves, n_twrs, k_hanoi[n_twrs][n_dsks], naux);
   
-  swap(naux[1], naux[n_twrs - 1]);
-  hanoi(moves, n_twrs - 1, n_dsks - k_hanoi[n_twrs][n_dsks], naux);
+  if (k_hanoi[n_twrs][n_dsks] > 0) {
+    swap(aux[1], aux[n_twrs - 1]);
+    hanoi(moves, n_twrs, k_hanoi[n_twrs][n_dsks], aux);
+    
+    swap(aux[1], aux[n_twrs - 1]);
+    hanoi(moves, n_twrs - 1, n_dsks - k_hanoi[n_twrs][n_dsks], aux);
+    
+    swap(aux[0], aux[n_twrs - 1]);
+    hanoi(moves, n_twrs, k_hanoi[n_twrs][n_dsks], aux);
+  return;
+  }
   
-  swap(naux[0], naux[n_twrs - 1]);
-  hanoi(moves, n_twrs, k_hanoi[n_twrs][n_dsks], naux);
-  
-  /*  long min = 2147483647;
+  long min = 2147483647;
   int mink = 0;
   for (int k = 1; k < n_dsks; k++) {
     VI naux = aux;
@@ -98,7 +100,7 @@ void hanoi(vector<VI>& moves, int n_twrs, int n_dsks, VI& aux) {
   }
   k_hanoi[n_twrs][n_dsks] = mink;
   n_hanoi[n_twrs][n_dsks] = min;
-  hanoi(moves, n_twrs, n_dsks, aux); */
+  hanoi(moves, n_twrs, n_dsks, aux);
 }
 
 int main () {
@@ -106,14 +108,14 @@ int main () {
   vector<VI> moves;
   VI aux;
   for (int i = 0; i < 100; i++)
-    printf("n_hanoi[%d][%d] = %d\n", 3, i, n_hanoi[3][i]);
+    printf("k_hanoi[%d][%d] = %ld\n", 4, i, k_hanoi[4][i]);
   
-
-  /*  int n_twrs = 6, n_dsks = 10;
+  
+  /*  int n_twrs = 4, n_dsks = 40;
   for (int i = 0; i < n_twrs; i++) aux.push_back(i);
   hanoi(moves, n_twrs, n_dsks, aux);
   for (int i = 0; i < moves.size(); i++) printf("%d to %d\n", moves[i][0], moves[i][1]);
-  printf("Number of moves: %lu\n", moves.size()); */
+  printf("Number of moves: %lu\n", moves.size());*/
 
   return 0;
   }

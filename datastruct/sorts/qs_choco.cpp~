@@ -5,6 +5,16 @@ using namespace std;
 
 const int TH = 20;
 
+void insertion_sort(int a[], int n) {
+  for (int i = 1; i < n; i++) {
+    int j = i;
+    while (j > 0 && a[j - 1] > a[j]) {
+      swap(a[j], a[j - 1]);
+      j--;
+    }
+  }
+}
+
 int median_of_3(int a[], int lo, int hi) {
   int mid = a[(lo + hi) / 2];
   if ((a[lo] <= a[mid] && a[mid] <= a[hi]) || (a[lo] >= a[mid] && a[mid] >= a[hi]))

@@ -9,50 +9,41 @@ typedef vector<long> VL;
 
 // indices not shifted
 vector<VL> n_hanoi; // n_hanoi[twr][dsks] = # of moves
-vector<VI> k_hanoi; // k_hanoi[twr][dsks] = # of disks in first move
+vector<VI> k_hanoi; // k_hanoi[twr][dsks] = # of disks in first
+
+void calc_kn(int n_twrs, int n_dsks) {
+  printf("calc_kn[%d][%d]\n", n_twrs, n_dsks);
+  for (int i = 1; i < n_dsks; i++) {
+    if (k_hanoi[n_twrs][i] == 0) calc_kn(n_twrs, i);
+    if (k_hanoi[n_twrs - 1][n_dsks - i] == 0) calc_kn(n_twrs - 1, n_dsks - i);
+    long n = n_hanoi[n_twrs][i] + n_hanoi[n_twrs][i] + n_hanoi[n_twrs - 1][n_dsks - i];
+    if (n < n_hanoi[n_twrs][n_dsks]) {
+      n_hanoi[n_twrs][n_dsks] = n;
+      k_hanoi[n_twrs][n_dsks] = i;
+    }
+  }
+}
 
 // initialize n_hanoi and k_hanoi
 void hanoi_init() {
-  VL n(10001, 0);
+  VL n(10001, pow(2, 62));
   VI k(10001, 0);
   for (int i = 0; i < 11; i++) {
     n_hanoi.push_back(n);
     k_hanoi.push_back(k);
   }
-  for (int i = 0; i < 11; i++) {
-    n_hanoi[i][1] = 1;
-  }
-  for (int i = 2; i < 10000; i++) {
-    n_hanoi[3][i] = 2 * (n_hanoi[3][i - 1] + 1) - 1;
+  for (int i = 1; i < 10000; i++) {
     k_hanoi[3][i] = i - 1;
   }
-  for (int i = 2; i < 10000; i++) {
-    long min = 2147483647;
-    int mink = 1;
-    for (int j = 1; j < i; j++) {
-      long n = 2 * n_hanoi[4][j] + n_hanoi[3][i - j];
-      if (n < min) {
-	mink = j;
-	min = n;
-      }
-    }
-    k_hanoi[4][i] = mink;
-    n_hanoi[4][i] = min;
+  for (int i = 0; i < 11; i++) {
+    n_hanoi[i][1] = 1;
+    k_hanoi[i][1] = 1;
   }
-  for (int i = 5; i <= 10; i++) {
-    for (int j = 2; j <= 10000; j++) {
-    long min = 2147483647;
-    int mink = 1;
-    for (int k = 1; k < i; k++) {
-      long n = 2 * n_hanoi[i][k] + n_hanoi[i - 1][j - k];
-      if (n < min) {
-	mink = j;
-	min = n;
-      }
-    }
-    k_hanoi[i][j] = mink;
-    n_hanoi[i][j] = min;
-    }
+  for (int i = 2; i < 63; i++) {
+    n_hanoi[3][i] = pow(2, i) - 1;
+  }
+  for (int i = 2; i < 1600; i++) {
+    calc_kn(4, i);
   }
 }
 
@@ -66,55 +57,37 @@ void hanoi(vector<VI>& moves, int n_twrs, int n_dsks, VI& aux) {
     moves.push_back(move);
     return;
   }
- 
-  VI naux = aux;
-  swap(naux[1], naux[n_twrs - 1]);
-  hanoi(moves, n_twrs, k_hanoi[n_twrs][n_dsks], naux);
   
-  swap(naux[1], naux[n_twrs - 1]);
-  hanoi(moves, n_twrs - 1, n_dsks - k_hanoi[n_twrs][n_dsks], naux);
-  
-  swap(naux[0], naux[n_twrs - 1]);
-  hanoi(moves, n_twrs, k_hanoi[n_twrs][n_dsks], naux);
-  
-  /*  long min = 2147483647;
-  int mink = 0;
-  for (int k = 1; k < n_dsks; k++) {
-    VI naux = aux;
-    vector<VI> nmoves = moves;
-    swap(naux[1], naux[n_twrs - 1]);
-    hanoi(nmoves, n_twrs, k, naux);
+  if (k_hanoi[n_twrs][n_dsks] > 0) {
+    swap(aux[1], aux[n_twrs - 1]);
+    hanoi(moves, n_twrs, k_hanoi[n_twrs][n_dsks], aux);
     
-    swap(naux[1], naux[n_twrs - 1]);
-    hanoi(nmoves, n_twrs - 1, n_dsks - k, naux);
+    swap(aux[1], aux[n_twrs - 1]);
+    hanoi(moves, n_twrs - 1, n_dsks - k_hanoi[n_twrs][n_dsks], aux);
     
-    swap(naux[0], naux[n_twrs - 1]);
-    hanoi(nmoves, n_twrs, k, naux);
-    
-    if (nmoves.size() < min) {
-      mink = k;
-      min = nmoves.size();
-    }
+    swap(aux[0], aux[n_twrs - 1]);
+    hanoi(moves, n_twrs, k_hanoi[n_twrs][n_dsks], aux);
+  return;
   }
-  k_hanoi[n_twrs][n_dsks] = mink;
-  n_hanoi[n_twrs][n_dsks] = min;
-  hanoi(moves, n_twrs, n_dsks, aux); */
+  
+  calc_kn(n_twrs, n_dsks);
+  hanoi(moves, n_twrs, n_dsks, aux);
 }
 
 int main () {
   hanoi_init();
-  vector<VI> moves;
-  VI aux;
-  for (int i = 0; i < 100; i++)
-    printf("n_hanoi[%d][%d] = %d\n", 4, i, n_hanoi[4][i]);
   
+  for (int i = 0; i < 1600; i++) printf("n_hanoi[%d][%d] = %ld\n", 4, i, n_hanoi[4][i]);
 
-  /*  int n_twrs = 6, n_dsks = 10;
+  VI aux;
+  vector<VI> moves;
+  
+  int n_twrs = 5, n_dsks = 1000;
   for (int i = 0; i < n_twrs; i++) aux.push_back(i);
   hanoi(moves, n_twrs, n_dsks, aux);
   for (int i = 0; i < moves.size(); i++) printf("%d to %d\n", moves[i][0], moves[i][1]);
-  printf("Number of moves: %lu\n", moves.size()); */
-
+  printf("Number of moves: %lu\n", moves.size());
+  
   return 0;
   }
 
