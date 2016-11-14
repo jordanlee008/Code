@@ -1,12 +1,7 @@
 #include <iostream>
 #include <vector>
-#include <mach/mach_time.h>
 
 using namespace std;
-
-double time() {
-    return 1E-9*mach_absolute_time();
-}
 
 vector<int> hand(int c) { // return the cards of the hand
   vector<int> h;
@@ -143,77 +138,3 @@ void pokersort(vector<int>& a) {
   qs(a, 0, a.size() - 1);
 }
 
-void test(int p, int m) {
-  vector<int> a;
-  for (int i=p; i<m; ++i) {
-    for (int j=p; j<m; ++j){
-      for (int k=p; k<m; ++k){
-	for (int l=p; l<m; ++l){
-	  for (int n=p; n<m; ++n){
-	    if(i == j && j == k && k == l && l == n) continue;
-	    a.push_back((i * 4)+(52*j*4)+(52*52*k*4)+(52*52*52*l*4)+(52*52*52*52*n*4));
-	    // cout << "t";
-	  }
-	}
-      }
-    }
-  }
-  double start=time();
-  pokersort(a);
-  double end=time();
-  cout << end-start << " seconds" << endl;
-}
- 
-int main() {
-  // 4kind (7) 0 0 0 0 1
-  // straightflush (8) 4 3 2 1 0
-  // 4kind (7) 11 11 11 11 12
-  // fullhouse (6) 0 0 0 1 1
-  // highcard (0) 10 7 5 2 0
-  // 2pair (2) 1 1 0 0 2
-  // 3kind (3) 0 0 0 1 2
-  // 2kind (1) 0 0 5 2 1
-  // straight (4) 4 3 2 1 0
-  // flush (5) 12 6 5 1 0
-  vector<int> hands;
-  hands.push_back(29673748);
-  hands.push_back(118694992);
-  hands.push_back(328165340);
-  hands.push_back(37125972);
-  hands.push_back(296737480);
-  hands.push_back(73830068);
-  hands.push_back(73824660);
-  hands.push_back(73873332);
-  hands.push_back(118835652);
-  hands.push_back(354386448);
-
-  /*296737480
-    73873332
-    73830068
-    73824660
-    118835652
-    354386448
-    37125972
-    29673748
-    328165340
-    118694992 */
-
-  /*  double start=time();
-  for (int i = 0; i < hands.size(); i++) cout << val(hands[i])[0] << " ";
-  cout << "\n";
-  
-  pokersort(hands);
-  //  qs(hands, 0, hands.size() - 1);
-
-  
-  double end=time();
-  for (int i = 0; i < hands.size(); i++) cout << hands[i] << " ";
-  cout << "\n";
-  for (int i = 0; i < hands.size(); i++) cout << val(hands[i])[0] << " ";
-  cout << "\n";
-  cout << end-start << " seconds" << endl; */
-
-  test(0, 8);
-
-  return 0;
-}
