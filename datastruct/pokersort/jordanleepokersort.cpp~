@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <mach/mach_time.h>
 
 using namespace std;
 
@@ -44,7 +43,7 @@ vector<int> val(int c) {
     return cv;
   } else if (straight) {
     cv.push_back(4);
-    for (int i = 12; i >= 0; i--) if (values[i]) cv.push_back(i);
+    for (int i = 1; i <= 5; i++) cv.push_back(index - i);
     return cv;
   }
 
@@ -95,9 +94,10 @@ vector<int> val(int c) {
   return cv;
 }
 
-// returns v0 < v1
+// returns h0 < h1
 // compare val[0], then val[1], then val[2], etc
-bool cardless(vector<int> v0, vector<int> v1) { 
+bool cardless(int h0, int h1) { 
+  vector<int> v0 = val(h0), v1 = val(h1);
   if (v0[0] != v1[0]) return v0[0] < v1[0];
   if (v0[1] != v1[1]) return v0[1] < v1[1];
   if (v0[2] != v1[2]) return v0[2] < v1[2];
@@ -106,43 +106,35 @@ bool cardless(vector<int> v0, vector<int> v1) {
   return v0[5] < v1[5];
 }
 
-int partition(vector<int>& a, vector< vector<int> >& b, int lo, int hi) {
-  vector<int> x = b[lo];
+int partition(vector<int>& a, int lo, int hi) {
+  int x = a[lo];
   //  printf("x: %d\n", x);
   while (lo <= hi) {
-    while (cardless(b[lo], x)) lo++;
-    while (cardless(x, b[hi])) hi--;
+    while (cardless(a[lo], x)) lo++;
+    while (cardless(x, a[hi])) hi--;
     //    printf("lo: %d\t hi: %d\n", lo, hi);
     if (lo <= hi) {
-      swap(a[lo], a[hi]);
-      vector<int> b1 = b[lo];
-      b[lo] = b[hi];
-      b[hi] = b1;
-      lo++;
-      hi--;
+      int b = a[lo];
+      a[lo++] = a[hi];
+      a[hi--] = b;
     }
   }
   //  printf("lo: %d\t hi: %d\n", lo, hi);
   return lo;
 }
 
-void qs(vector<int>& a, vector< vector<int> >& b, int lo, int hi) {
+void qs(vector<int>& a, int lo, int hi) {
   if (lo < hi) {
-    int m = partition(a, b, lo, hi);
-    qs(a, b, lo, m - 1);
-    qs(a, b, m, hi);
+    //    printf("lo: %d\t hi: %d\n", lo, hi);
+    //    printf("a[lo]: %d\n", a[lo]);
+    //    printf("a[hi]: %d\n", a[hi]);
+    int m = partition(a, lo, hi);
+    qs(a, lo, m - 1);
+    qs(a, m, hi);
   }
 }
 
 void pokersort(vector<int>& a) {
-  vector< vector<int> > b;
-  for (int i = 0; i < a.size(); i++) {
-    vector<int> c = val(a[i]);
-    for (int j = 0; j < 6; j++) printf("c[%d]: %d \t", j, c[j]);
-    cout << "\n";
-    b.push_back(c);
-  }
-  qs(a, b, 0, a.size() - 1);
+  qs(a, 0, a.size() - 1);
 }
-
 

@@ -48,7 +48,7 @@ vector<int> val(int c) {
     return cv;
   } else if (straight) {
     cv.push_back(4);
-    for (int i = 1; i <= 5; i++) cv.push_back(index - i);
+    for (int i = 12; i >= 0; i--) if (values[i]) cv.push_back(i);
     return cv;
   }
 
@@ -99,10 +99,9 @@ vector<int> val(int c) {
   return cv;
 }
 
-// returns h0 < h1
+// returns v0 < v1
 // compare val[0], then val[1], then val[2], etc
-bool cardless(int h0, int h1) { 
-  vector<int> v0 = val(h0), v1 = val(h1);
+bool cardless(vector<int> v0, vector<int> v1) { 
   if (v0[0] != v1[0]) return v0[0] < v1[0];
   if (v0[1] != v1[1]) return v0[1] < v1[1];
   if (v0[2] != v1[2]) return v0[2] < v1[2];
@@ -111,36 +110,43 @@ bool cardless(int h0, int h1) {
   return v0[5] < v1[5];
 }
 
-int partition(vector<int>& a, int lo, int hi) {
-  int x = a[lo];
+int partition(vector<int>& a, vector< vector<int> >& b, int lo, int hi) {
+  vector<int> x = b[lo];
   //  printf("x: %d\n", x);
   while (lo <= hi) {
-    while (cardless(a[lo], x)) lo++;
-    while (cardless(x, a[hi])) hi--;
+    while (cardless(b[lo], x)) lo++;
+    while (cardless(x, b[hi])) hi--;
     //    printf("lo: %d\t hi: %d\n", lo, hi);
     if (lo <= hi) {
-      int b = a[lo];
-      a[lo++] = a[hi];
-      a[hi--] = b;
+      swap(a[lo], a[hi]);
+      vector<int> b1 = b[lo];
+      b[lo] = b[hi];
+      b[hi] = b1;
+      lo++;
+      hi--;
     }
   }
   //  printf("lo: %d\t hi: %d\n", lo, hi);
   return lo;
 }
 
-void qs(vector<int>& a, int lo, int hi) {
+void qs(vector<int>& a, vector< vector<int> >& b, int lo, int hi) {
   if (lo < hi) {
-    //    printf("lo: %d\t hi: %d\n", lo, hi);
-    //    printf("a[lo]: %d\n", a[lo]);
-    //    printf("a[hi]: %d\n", a[hi]);
-    int m = partition(a, lo, hi);
-    qs(a, lo, m - 1);
-    qs(a, m, hi);
+    int m = partition(a, b, lo, hi);
+    qs(a, b, lo, m - 1);
+    qs(a, b, m, hi);
   }
 }
 
 void pokersort(vector<int>& a) {
-  qs(a, 0, a.size() - 1);
+  vector< vector<int> > b;
+  for (int i = 0; i < a.size(); i++) {
+    vector<int> c = val(a[i]);
+    for (int j = 0; j < 6; j++) printf("c[%d]: %d \t", j, c[j]);
+    cout << "\n";
+    b.push_back(c);
+  }
+  qs(a, b, 0, a.size() - 1);
 }
 
 void test(int p, int m) {
@@ -163,57 +169,42 @@ void test(int p, int m) {
   double end=time();
   cout << end-start << " seconds" << endl;
 }
- 
+
 int main() {
-  // 4kind (7) 0 0 0 0 1
-  // straightflush (8) 4 3 2 1 0
-  // 4kind (7) 11 11 11 11 12
-  // fullhouse (6) 0 0 0 1 1
-  // highcard (0) 10 7 5 2 0
-  // 2pair (2) 1 1 0 0 2
-  // 3kind (3) 0 0 0 1 2
-  // 2kind (1) 0 0 5 2 1
-  // straight (4) 4 3 2 1 0
-  // flush (5) 12 6 5 1 0
   vector<int> hands;
-  hands.push_back(29673748);
-  hands.push_back(118694992);
-  hands.push_back(328165340);
-  hands.push_back(37125972);
-  hands.push_back(296737480);
-  hands.push_back(73830068);
-  hands.push_back(73824660);
-  hands.push_back(73873332);
-  hands.push_back(118835652);
-  hands.push_back(354386448);
+  hands.push_back(29673748);  // 4kind (7) 0 0 0 0 1
+  hands.push_back(118694992);  // straightflush (8) 4 3 2 1 0
+  hands.push_back(328165340);  // 4kind (7) 11 11 11 11 12
+  hands.push_back(37125972);  // fullhouse (6) 0 0 0 1 1
+  hands.push_back(296737480);   // highcard (0) 10 7 5 2 0
+  hands.push_back(73830068);  // 2pair (2) 1 1 0 0 2
+  hands.push_back(146237);  // 3kind (3) 0 0 0 3 1
+  hands.push_back(73873332);  // 2kind (1) 0 0 5 2 1
+  hands.push_back(118835652);  // straight (4) 4 3 2 1 0
+  hands.push_back(354386448);  // flush (5) 12 6 5 1 0
+  hands.push_back(59060820);  // 3kind (3) 0 0 0 2 1
+  hands.push_back(88869716);  // 3kind (3) 0 0 0 3 2
+  hands.push_back(118116180);  // 3kind (3) 0 0 0 4 2
+  hands.push_back(118678612);  // 3kind (3) 0 0 0 4 3
+  hands.push_back(118689640);  // 3kind (3) 1 1 1 4 3
+  hands.push_back(147936104);  // 3kind (3) 1 1 1 5 3
+  hands.push_back(176620136);  // 3kind (3) 1 1 1 6 2
+  hands.push_back(88880744);  // 3kind (3) 1 1 1 3 2
 
-  /*296737480
-    73873332
-    73830068
-    73824660
-    118835652
-    354386448
-    37125972
-    29673748
-    328165340
-    118694992 */
-
-  /*  double start=time();
   for (int i = 0; i < hands.size(); i++) cout << val(hands[i])[0] << " ";
   cout << "\n";
-  
-  pokersort(hands);
-  //  qs(hands, 0, hands.size() - 1);
 
-  
+  double start=time();  
+  pokersort(hands);
   double end=time();
+
   for (int i = 0; i < hands.size(); i++) cout << hands[i] << " ";
   cout << "\n";
   for (int i = 0; i < hands.size(); i++) cout << val(hands[i])[0] << " ";
   cout << "\n";
-  cout << end-start << " seconds" << endl; */
+  cout << end-start << " seconds" << endl;
 
-  test(0, 8);
+  //  test(0, 10);
 
   return 0;
 }

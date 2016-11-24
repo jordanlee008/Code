@@ -20,3 +20,9 @@ void qs_vanilla(int a[], int lo, int hi) {
     qs_vanilla(a, m, hi);
   }
 }
+
+int main() {
+  int a[] = {7, 8, 7, 6, 0, 2, 3, 1, 4, 5, 3, 3, 3, 3, 3, 3, 3, 3};
+  qs_vanilla(a, 0, 17);
+  for (int i = 0; i < 18; i++) printf("a[%d]: %d\n", i, a[i]);
+}
