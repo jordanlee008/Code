@@ -4,10 +4,6 @@
 
 using namespace std;
 
-double time() {
-    return 1E-9*mach_absolute_time();
-}
-
 vector<int> hand(int c) { // return the cards of the hand
   vector<int> h;
   for (int i = 0; i < 5; i++) {
@@ -149,62 +145,4 @@ void pokersort(vector<int>& a) {
   qs(a, b, 0, a.size() - 1);
 }
 
-void test(int p, int m) {
-  vector<int> a;
-  for (int i=p; i<m; ++i) {
-    for (int j=p; j<m; ++j){
-      for (int k=p; k<m; ++k){
-	for (int l=p; l<m; ++l){
-	  for (int n=p; n<m; ++n){
-	    if(i == j && j == k && k == l && l == n) continue;
-	    a.push_back((i * 4)+(52*j*4)+(52*52*k*4)+(52*52*52*l*4)+(52*52*52*52*n*4));
-	    // cout << "t";
-	  }
-	}
-      }
-    }
-  }
-  double start=time();
-  pokersort(a);
-  double end=time();
-  cout << end-start << " seconds" << endl;
-}
 
-int main() {
-  vector<int> hands;
-  hands.push_back(29673748);  // 4kind (7) 0 0 0 0 1
-  hands.push_back(118694992);  // straightflush (8) 4 3 2 1 0
-  hands.push_back(328165340);  // 4kind (7) 11 11 11 11 12
-  hands.push_back(37125972);  // fullhouse (6) 0 0 0 1 1
-  hands.push_back(296737480);   // highcard (0) 10 7 5 2 0
-  hands.push_back(73830068);  // 2pair (2) 1 1 0 0 2
-  hands.push_back(146237);  // 3kind (3) 0 0 0 3 1
-  hands.push_back(73873332);  // 2kind (1) 0 0 5 2 1
-  hands.push_back(118835652);  // straight (4) 4 3 2 1 0
-  hands.push_back(354386448);  // flush (5) 12 6 5 1 0
-  hands.push_back(59060820);  // 3kind (3) 0 0 0 2 1
-  hands.push_back(88869716);  // 3kind (3) 0 0 0 3 2
-  hands.push_back(118116180);  // 3kind (3) 0 0 0 4 2
-  hands.push_back(118678612);  // 3kind (3) 0 0 0 4 3
-  hands.push_back(118689640);  // 3kind (3) 1 1 1 4 3
-  hands.push_back(147936104);  // 3kind (3) 1 1 1 5 3
-  hands.push_back(176620136);  // 3kind (3) 1 1 1 6 2
-  hands.push_back(88880744);  // 3kind (3) 1 1 1 3 2
-
-  for (int i = 0; i < hands.size(); i++) cout << val(hands[i])[0] << " ";
-  cout << "\n";
-
-  double start=time();  
-  pokersort(hands);
-  double end=time();
-
-  for (int i = 0; i < hands.size(); i++) cout << hands[i] << " ";
-  cout << "\n";
-  for (int i = 0; i < hands.size(); i++) cout << val(hands[i])[0] << " ";
-  cout << "\n";
-  cout << end-start << " seconds" << endl;
-
-  //  test(0, 10);
-
-  return 0;
-}
