@@ -68,22 +68,32 @@ VI part_k(int n, ULL k) {
 // s - sum
 // r - rest
 ULL part_im(const VI& p, int i, int m, ULL s, ULL r) {
+  //  printf("[%d][%d][%llu][%llu]\n", i, m, s, r);
+  if (i == p.size()) return 0;
+  if (r == 0) return 0;
   ULL t = 0;
   int j = m;
-  while (t + qm[r][
+  while (j > p[i]) {
+    t += qm[r][j];
+    j--;
+  }
+  t += part_im(p, i + 1, p[i], s + p[i], r - p[i]);
+  return t;
 }
 
 // return index of part p (guaranteed p is valid part)
 ULL part_i(const VI& p) {
-  int m = 0;
-  for (int i = 0; i < p.size(); p++) m += p[i];
-  return part_im(p, 0, m, 0);
+  int s = 0;
+  for (int i = 0; i < p.size(); i++) s += p[i];
+  return part_im(p, 0, s, 0, s);
 }
 
 int main() {
   for (int i = 0; i < 417; i++) printf("%d\t%llu\n", i, part_q(i));
-  for (int i = 0; i < part_q(7); i++) {
-    VI r = part_k(7, i);
+  int n = 10;
+  for (int i = 0; i < part_q(10); i++) {
+    VI r = part_k(10, i);
+    cout << part_i(r) << "\t";
     for (int j = 0; j < r.size(); j++) cout << r[j] << " ";
     cout << "\n";
   }
