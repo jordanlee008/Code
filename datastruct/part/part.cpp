@@ -59,6 +59,7 @@ VI part_km(int n, int m, ULL k) {
 
 // return kth partition of n
 VI part_k(int n, ULL k) {
+  part_q(n);
   return part_km(n, n, k);
 }
 
@@ -67,7 +68,7 @@ VI part_k(int n, ULL k) {
 // m - max
 // s - sum
 // r - rest
-ULL part_im(const VI& p, int i, int m, ULL s, ULL r) {
+ULL part_im(const VI& p, int i, int m, int s, int r) {
   //  printf("[%d][%d][%llu][%llu]\n", i, m, s, r);
   if (i == p.size()) return 0;
   if (r == 0) return 0;
@@ -85,17 +86,16 @@ ULL part_im(const VI& p, int i, int m, ULL s, ULL r) {
 ULL part_i(const VI& p) {
   int s = 0;
   for (int i = 0; i < p.size(); i++) s += p[i];
+  part_q(s);
   return part_im(p, 0, s, 0, s);
 }
 
-int main() {
-  for (int i = 0; i < 417; i++) printf("%d\t%llu\n", i, part_q(i));
-  int n = 10;
-  for (int i = 0; i < part_q(10); i++) {
-    VI r = part_k(10, i);
-    cout << part_i(r) << "\t";
-    for (int j = 0; j < r.size(); j++) cout << r[j] << " ";
-    cout << "\n";
+/*int main() {
+  //  for (int i = 0; i < 417; i++) printf("%d\t%llu\n", i, part_q(i));
+  for (int i = 416; i > 0; i--) {
+    for (ULL j = part_q(i) - 1; j >= 0; j--) {
+      if (part_i(part_k(i, j)) != j) cout << j << " ERROR\n";
+    }
   }
   return 0;
-}
+}*/
