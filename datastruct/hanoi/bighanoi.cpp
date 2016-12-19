@@ -82,9 +82,15 @@ int main () {
   VI aux;
   vector<VI> moves;
   
-  int n_twrs = 5, n_dsks = 1000;
+  int n_twrs = 10, n_dsks = 10;
   for (int i = 0; i < n_twrs; i++) aux.push_back(i);
   hanoi(moves, n_twrs, n_dsks, aux);
+  for (int i = 0; i < 11; i++) {
+    for (int j = 0; j < 11; j++) {
+      cout << k_hanoi[i][j] << "\t";
+    }
+    cout << "\n";
+  }
   for (int i = 0; i < moves.size(); i++) printf("%d to %d\n", moves[i][0], moves[i][1]);
   printf("Number of moves: %lu\n", moves.size());
   
