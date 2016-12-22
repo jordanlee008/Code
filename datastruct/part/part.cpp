@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <mach/mach_time.h>
 
 using namespace std;
 
@@ -8,6 +9,10 @@ typedef vector<int> VI;
 
 ULL qm[417][417] = {};
 ULL q[417] = {};
+
+double time() {
+  return 1E-9 * mach_absolute_time();
+}
 
 ULL part_q(int n);
 
@@ -90,12 +95,19 @@ ULL part_i(const VI& p) {
   return part_im(p, 0, s, 0, s);
 }
 
-/*int main() {
-  //  for (int i = 0; i < 417; i++) printf("%d\t%llu\n", i, part_q(i));
-  for (int i = 416; i > 0; i--) {
-    for (ULL j = part_q(i) - 1; j >= 0; j--) {
-      if (part_i(part_k(i, j)) != j) cout << j << " ERROR\n";
-    }
-  }
+int main() {
+  VI p;
+  p.push_back(5);
+  p.push_back(5);
+  p.push_back(5);
+  p.push_back(5);
+  p.push_back(3);
+  p.push_back(3);
+  p.push_back(3);
+  p.push_back(1);
+  double start3 = time();
+  cout << part_i(p) << "\n";
+  double end3 = time();
+  cout << "t: " << end3 - start3 << "\n";
   return 0;
-}*/
+}
