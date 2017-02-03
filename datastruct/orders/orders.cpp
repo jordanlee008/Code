@@ -14,7 +14,7 @@ int pre = 1;
 
 bool findcuts(int n) {
   if (prepost[n][0] != -1) return false;
-  printf("findcuts(%d), %d\n", n, pre);
+  //  printf("findcuts(%d), %d\n", n, pre);
   prepost[n][0] = pre;
   pre++;
   
@@ -81,14 +81,14 @@ int transporters(int n, VI& tubes) {
   for (int i = 0; i < n; i++) {
     if ((!cnodes[i]) && (cols[i] == -1)) {
       int coli = color(i);
-      printf("color(%d) = %d\n", i, coli);
+      //      printf("color(%d) = %d\n", i, coli);
       if (coli < 2) {
-	printf("color(%d) < 2\n", i);
+	//	printf("color(%d) < 2\n", i);
 	col++;
       }
     }
   }
-  if (col == 1) return 2;
+  if (col < 2) return 2;
   return col;
 }
 
