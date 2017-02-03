@@ -30,7 +30,7 @@ bool findcuts(int n) {
   }
   
   if ((descendants > 1) && (n == 0)) {
-    cout << "descendants: " << descendants << "\n";
+    //    cout << "descendants: " << descendants << "\n";
     cnodes[n] = 1;
   }
   prepost[n][1] = minpre;
@@ -42,7 +42,10 @@ int color(int n) {
   cols[n] = col;
   int cut = 0;
   for (int i = 0; i < nodes[n].size(); i++) {
-    if (cnodes[nodes[n][i]] && cols[nodes[n][i]] != col) cut++;
+    if (cnodes[nodes[n][i]] && cols[nodes[n][i]] != col) {
+      cut++;
+      cols[nodes[n][i]] = col;
+    }
     else if (!cnodes[nodes[n][i]]) cut += color(nodes[n][i]);
   }
   return cut;
@@ -50,10 +53,16 @@ int color(int n) {
 
 int transporters(int n, VI& tubes) {
   // input data
+  cnodes.clear();
+  nodes.clear();
+  cols.clear();
+  prepost.clear();
+  col = 0;
+  pre = 1;
   VI e;
   VI pp;
   pp.push_back(-1);
-  pp.push_back(-1);  
+  pp.push_back(-1);
   for (int i = 0; i < n; i++) {
     cnodes.push_back(0);
     nodes.push_back(e);
@@ -70,7 +79,14 @@ int transporters(int n, VI& tubes) {
 
   // depth first search to color points
   for (int i = 0; i < n; i++) {
-    if (cols[i] == -1 && color(i) < 2) col++;
+    if ((!cnodes[i]) && (cols[i] == -1)) {
+      int coli = color(i);
+      printf("color(%d) = %d\n", i, coli);
+      if (coli < 2) {
+	printf("color(%d) < 2\n", i);
+	col++;
+      }
+    }
   }
   if (col == 1) return 2;
   return col;
@@ -78,25 +94,20 @@ int transporters(int n, VI& tubes) {
 
 /*int main() {
   VI tubes;
-  tubes.push_back(1);
-  tubes.push_back(2);
-  tubes.push_back(1);
-  tubes.push_back(4);
-  tubes.push_back(2);
-  tubes.push_back(4);
-  tubes.push_back(3);
-  tubes.push_back(4);
-  tubes.push_back(4);
-  tubes.push_back(5);
-  tubes.push_back(6);
-  tubes.push_back(5);
-  tubes.push_back(6);
-  tubes.push_back(7);
-  tubes.push_back(7);
-  tubes.push_back(5);
-  tubes.push_back(5);
-  tubes.push_back(0);
-  int n = 8;
+  int v;
+  int max = 0;
+  cin >> v;
+  for (int i = 0; i < v; i++) {
+    int e1, e2;
+    cin >> e1 >> e2;
+    if (e1 > max) max = e1;
+    if (e2 > max) max = e2;
+    tubes.push_back(e1);
+    tubes.push_back(e2);
+  }
+
+  int n = max + 1;
+  printf("n: %d\n", n);
   cout << transporters(n, tubes) << "\n";
   for (int i = 0; i < n; i++) {
     cout << i << ": ";
