@@ -1,7 +1,8 @@
 /*
   Jordan Lee
   Senior Team
-  ACSL
+  C++
+  Bergen County Academies
  */
 #include <iostream>
 #include <vector>

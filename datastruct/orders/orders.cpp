@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -92,32 +93,32 @@ int transporters(int n, VI& tubes) {
   return col;
 }
 
-/*int main() {
-  VI tubes;
-  int v;
-  int max = 0;
-  cin >> v;
-  for (int i = 0; i < v; i++) {
-    int e1, e2;
-    cin >> e1 >> e2;
-    if (e1 > max) max = e1;
-    if (e2 > max) max = e2;
-    tubes.push_back(e1);
-    tubes.push_back(e2);
-  }
-
-  int n = max + 1;
-  printf("n: %d\n", n);
-  cout << transporters(n, tubes) << "\n";
-  for (int i = 0; i < n; i++) {
-    cout << i << ": ";
-    for (int j = 0; j < nodes[i].size(); j++) {
-      cout << nodes[i][j] << " ";
+int main() {
+  ifstream fin ("transporter_small.in");
+  //  for (int i = 1; i < 20; i++) {
+    VI tubes;
+    int v;
+    int max = 0;
+    cin >> v;
+    for (int i = 0; i < v; i++) {
+      int e1, e2;
+      cin >> e1 >> e2;
+      if (e1 > max) max = e1;
+      if (e2 > max) max = e2;
+      tubes.push_back(e1);
+      tubes.push_back(e2);
     }
-    cout << "\n";
-  }
-  cout << "cut: ";
-  for (int i = 0; i < n; i++)
-    if (cnodes[i]) cout << i << " ";
-  cout << "\n"; 
-  }*/
+
+    int n = max + 1;
+    //    printf("i: %d\t", i);
+    //    printf("n: %d\n", n);
+    cout << transporters(n, tubes) << "\n";
+    for (int i = 0; i < n; i++) {
+      cout << i << ": ";
+      for (int j = 0; j < nodes[i].size(); j++) {
+	cout << nodes[i][j] << " ";
+      }
+      cout << "\n";
+    }
+    //  }
+}
