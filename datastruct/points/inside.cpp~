@@ -1,9 +1,0 @@
-#include <vector>
-#include <iostream>
-#include "point.h"
-
-using namespace std;
-
-int quadrant(const Point& p) {
-  
-}
