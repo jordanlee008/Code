@@ -30,11 +30,10 @@ class NearestNeighbor(object):
             distances[i, j] = the L2 distance between X[i] and self.Xtr[j]
             """
         #print(X.shape, self.Xtr.shape)
-        X_r = np.repeat(X, self.Xtr.shape[0], axis=0)
-        Xtr_r = np.tile(self.Xtr, (X.shape[0], 1))
-        #print(X_r.shape, Xtr_r.shape)
-        d = np.sqrt(np.sum(np.square(Xtr_r - X_r), axis = 1))
-        dists = d.reshape(X.shape[0], self.Xtr.shape[0])
+        dists = np.zeros((X.shape[0], self.Xtr.shape[0]))
+        for i in range(X.shape[0]):
+            X_r = np.tile(X[i], (self.Xtr.shape[0], 1))
+            dists[i] = np.sqrt(np.sum(np.square(self.Xtr - X_r), axis = 1))
         #print(dists.shape)
         return dists
     
