@@ -42,9 +42,9 @@ bool cantrans(string a, string b) {
   return true;
 }
 
-int main() {
-  /*ifstream fin ("translate.in");
-    ofstream fout ("translate.out");*/
+/*int main() {
+  ifstream fin ("translate.in");
+  ofstream fout ("translate.out");
   
   cin >> num_trans >> num_test;
   for (int i = 0; i < num_trans; i++) {
@@ -65,13 +65,13 @@ int main() {
   
   for (int i = 0; i < 26; i++) filltrans(i);
   
-  /*  for (int i = 0; i < 26; i++) {
+for (int i = 0; i < 26; i++) {
     cout << i << " ";
     for (int j = 0; j < 26; j++) {
       cout << fulltrans[i][j] << " ";
     }
     cout << "\n";
-    }*/
+    }
 
   
   for (int i = 0; i < num_test; i++) {
@@ -80,4 +80,4 @@ int main() {
   }
   
   return 0;
-}
+}*/

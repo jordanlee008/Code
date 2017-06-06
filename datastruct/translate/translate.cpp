@@ -53,6 +53,7 @@ int main() {
     trans[a - 'a'].push_back(b - 'a');
     fulltrans[a - 'a'][b - 'a'] = 1;
   }
+  
   for (int i = 0; i < 26; i++) fulltrans[i][i] = 1;
   for (int i = 0; i < num_test; i++) {
     string a, b;
@@ -64,15 +65,6 @@ int main() {
   }
   
   for (int i = 0; i < 26; i++) filltrans(i);
-  
-  /*  for (int i = 0; i < 26; i++) {
-    cout << i << " ";
-    for (int j = 0; j < 26; j++) {
-      cout << fulltrans[i][j] << " ";
-    }
-    cout << "\n";
-    }*/
-
   
   for (int i = 0; i < num_test; i++) {
     if (cantrans(test[i][0], test[i][1])) cout << "yes\n";
