@@ -107,6 +107,7 @@ int main() {
   p.push_back(1);
   double start3 = time();
   cout << part_i(p) << "\n";
+  cout << part_n(410) << "\n";
   double end3 = time();
   cout << "t: " << end3 - start3 << "\n";
   return 0;

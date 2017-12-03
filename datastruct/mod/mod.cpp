@@ -25,8 +25,7 @@ Mod& Mod::operator+=(const Mod& m) {
 
 Mod& Mod::operator-=(const Mod& m) {
   x -= m.val();
-  if (x < 0)
-    x += modulus;
+  if (x < 0) x += modulus;
   return *this;
 }
 

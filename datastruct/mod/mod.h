@@ -16,8 +16,8 @@ class Mod {
   Mod& operator/=(const Mod& m);
 
   Mod operator-() const; // done
-  Mod pwr(long e) const;
-  long val() const;
+  Mod pwr(long e) const; // done
+  long val() const; // done
 
   static void set_modulus(long m); // done
   static long get_modulus(); // done
