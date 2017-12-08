@@ -1,0 +1,62 @@
+/*
+ID: jorlee
+PROG: sprime
+LANG: C++
+*/
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+int l;
+vector< vector<int> > pl (8);
+vector<int> p (1);
+
+void solve (int l, int n) {
+  
+}
+
+bool lcheck (int n, int l) {
+  int count;
+  while (n != 0) {
+    count++;
+    n = n / 10;
+  }
+  if (count == l)
+    return true;
+  return false;
+}
+
+void pgen(int n) {
+  for (int i = 3; i <= n; i += 2) {
+    bool isp = true;
+    for (int j = 0;j < p.size() && p[j]*p[j] <= n; j++) {
+      if (i % p[j] == 0)
+	isp = false;
+    }
+    if (isp) {
+      for (int k = 1; k < 9; k++) {
+	//	cout << "k: " << k << endl;
+	//	cout << "i: " << i << endl;
+	if (lcheck(i, k)) {
+	  pl[k].push_back(i);
+	  p.push_back(i);
+	}
+      }
+    }
+  }
+}
+
+int main (void) {
+  ifstream fin ("sprime.in");
+  ofstream fout ("sprime.out");
+  fin >> l;
+  p[0] = 2;
+  pgen(100);
+  for (int i = 0; i < pl.size(); i++)
+    for (int j = 0; j < pl[i].size(); j++)
+      cout << pl[i][j] << endl;
+  return 0; 
+}
