@@ -27,11 +27,15 @@ int main() {
   while (!safe) {
     d++;
     vector<int> caught;
-    for (int i = 0; i < n; i++) {
+    bool go = true;
+    for (int i = 0; i < n && go; i++) {
       if (l[i] == 0) continue;
       
       int p = (d+i) % (l[i] + l[i] - 2);
-      if (p == 0) caught.push_back(i);
+      if (p == 0) {
+	caught.push_back(i);
+	go = false;
+      }
     }
     
     if (caught.size() == 0) { safe = true; }
