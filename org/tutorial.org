@@ -1,0 +1,54 @@
+* Lists
+
+** Unordered List
+   + Here is an example
+   + Use M-Return to move to the next line
+     + Using Return will just exit the list
+   + Use tab to build a hierarchy
+
+** Ordered List
+   1. First item
+   2. Second item
+      1. You can even tab!
+	 1. Darn, no roman numerals.
+
+** Check List
+   - You can even turn a regular unordered list into a check list
+   - [ ] Wow look!
+   - [X] Check it off using C-c C-c
+
+** Todo List
+*** DONE This is an example of a todo item
+    CLOSED: [2018-01-12 Fri 11:15]
+    Finish TODO Item: C-c C-t
+    Add TODO Item:  M-Shift-Return
+    Enter global TODO list: C-c a t
+
+* Hyperlinks
+** Simple URL
+   [[http://www.google.com][Google]]
+   Syntax: [[URL][Name]
+** Link to image
+   [[file:~/Desktop/Junk/Pictures/bobby/BOBBY.jpg][Bobby]]
+   Syntax: [[file:images/example.jpg][name]
+** Link to file
+   [[file:~/Desktop/Research/RSI/athena/finalpapers/2017/jorlee/main.pdf][RSI Paper]]
+   Syntax: [[file:files/example.pdf][name]
+   Get link from file: C-c l
+   Paste link: C-c C-l
+
+* Timing
+** Calendar/Dates
+   Enter deadline date: C-c C-d
+   Enter scheduled date: C-c C-s
+   Prompt for current date: C-c .
+   Date warning: YYYY-MM-DD DATE -time
+
+** Agenda
+   Tracks TODO items
+   Global task list: C-c a t
+   Agenda: C-c a a
+
+* Tags :test1:test2:
+  To create a tag: C-c C-c or type :tagname: at the end of a header
+  Search tags in agenda: C-c a m
