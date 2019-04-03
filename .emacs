@@ -73,6 +73,7 @@
 (define-key global-map (kbd "RET") 'newline-and-indent) ;; always indent with ret
 (define-key global-map (kbd "M-o") 'other-window) ;; switch window
 (define-key global-map (kbd "<f2>") 'eshell) ;; eshell
+(setq mac-option-modifier 'meta) ;; OPTION KEY IS META KEY
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -86,3 +87,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
+(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+;; ## end of OPAM user-setup addition for emacs / base ## keep this line
